@@ -12,7 +12,7 @@ def part1(task):
     return sum(strength)
 
 
-def draw_cycle(x, cycle):
+def draw_cycle(x: int, cycle: int):
     if x - 1 <= cycle % 40 <= x + 1:
         print('#', end='')
     else:

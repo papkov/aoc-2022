@@ -1,21 +1,17 @@
 import numpy as np
 from itertools import product
+from typing import Dict, List, Tuple
 
 STEPS = np.array([[0, 1], [0, -1], [1, 0], [-1, 0]])
+Location = Tuple[int, int]
 
 
-def is_outside_or_high(loc, loc_from, grid):
+def is_outside_or_high(loc: np.ndarray, loc_from: np.ndarray, grid: np.ndarray):
     return np.any(loc < 0) or np.any(loc >= np.array(grid.shape)) or grid[tuple(loc)] - grid[tuple(loc_from)] > 1
 
 
-def bfs(start, end, graph):
-    if isinstance(start, tuple):
-        queue = [(start, 0)]
-    elif isinstance(start, list) and isinstance(start[0], tuple):
-        queue = [(s, 0) for s in start]
-    else:
-        raise ValueError
-
+def bfs(start: List[Location], end: Location, graph: Dict[Location, List[Location]]):
+    queue = [(s, 0) for s in start]
     visited = set()
     while queue:
         node, depth = queue.pop(0)
@@ -49,7 +45,7 @@ def solve(task, from_any_a: bool = False):
 
     if from_any_a:
         return bfs(list(zip(*np.where(grid == 0))), end, graph)
-    return bfs(start, end, graph)
+    return bfs([start], end, graph)
 
 
 def main(task):

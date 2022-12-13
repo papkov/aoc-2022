@@ -1,11 +1,11 @@
-from typing import List, Any
+from typing import Any, List, Optional
 
 
 class Packet:
     def __init__(self, values: List[Any]):
         self.values = values
 
-    def __lt__(self, other: 'Packet'):
+    def __lt__(self, other: 'Packet') -> Optional[bool]:
         for left, right in zip(self.values, other.values):
             result = None
             if isinstance(left, int) and isinstance(right, int):
@@ -29,12 +29,12 @@ class Packet:
             return False
 
 
-def part1(first, second):
+def part1(first: List['Packet'], second: List['Packet']):
     indices = [i + 1 for i, (f, s) in enumerate(zip(first, second)) if f < s]
     return sum(indices)
 
 
-def part2(first, second):
+def part2(first: List['Packet'], second: List['Packet']):
     packets = sorted([Packet([[2]]), Packet([[6]])] + first + second)
     indices = [i + 1 for i, p in enumerate(packets) if p.values in ([[2]], [[6]])]
     return indices[0] * indices[1]
